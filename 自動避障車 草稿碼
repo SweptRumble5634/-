@@ -1,0 +1,103 @@
+int motor1r=2;
+int motor1b=3;
+int motor2r=4;
+int motor2b=5;
+
+int trigPin1=6;
+int echoPin1=7;
+int trigPin2=8;
+int echoPin2=9;
+int trigPin3=10;
+int echoPin3=11;
+
+long distance1,distance2,distance3;
+
+void forward(){
+  digitalWrite(motor1r,HIGH);
+  digitalWrite(motor1b,LOW);
+  digitalWrite(motor2r,HIGH);
+  digitalWrite(motor2b,LOW);
+}
+
+void backward(){
+  digitalWrite(motor1r,LOW);
+  digitalWrite(motor1b,HIGH);
+  digitalWrite(motor2r,LOW);
+  digitalWrite(motor2b,HIGH);
+}
+
+void turnLeft(){
+  digitalWrite(motor1r,LOW);
+  digitalWrite(motor1b,HIGH);
+  digitalWrite(motor2r,HIGH);
+  digitalWrite(motor2b,LOW);
+}
+
+void turnRight(){
+  digitalWrite(motor1r,HIGH);
+  digitalWrite(motor1b,LOW);
+  digitalWrite(motor2r,LOW);
+  digitalWrite(motor2b,HIGH);
+}
+
+void setup(){
+  pinMode(motor1r,OUTPUT);
+  pinMode(motor1b,OUTPUT);
+  pinMode(motor2r,OUTPUT);
+  pinMode(motor2b,OUTPUT);
+
+  pinMode(trigPin1,OUTPUT);
+  pinMode(echoPin1,INPUT);
+  pinMode(trigPin2,OUTPUT);
+  pinMode(echoPin2,INPUT);
+  pinMode(trigPin3,OUTPUT);
+  pinMode(echoPin3,INPUT);
+}
+
+void loop(){
+  digitalWrite(trigPin1,LOW);
+  digitalWrite(trigPin2,LOW);
+  digitalWrite(trigPin3,LOW);
+  delayMicroseconds(5);
+  digitalWrite(trigPin1,HIGH);
+  digitalWrite(trigPin2,HIGH);
+  digitalWrite(trigPin3,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin1,LOW);
+  digitalWrite(trigPin2,LOW);
+  digitalWrite(trigPin3,LOW);
+
+  pinMode(echoPin1,INPUT);
+  distance1=pulseIn(echoPin1,HIGH);
+  pinMode(echoPin2,INPUT);
+  distance2=pulseIn(echoPin2,HIGH);
+  pinMode(echoPin3,INPUT);
+  distance3=pulseIn(echoPin3,HIGH);
+
+  switch(distance1){
+    case 0 ... 70:
+    turnRight();
+    break;
+    
+    default:
+    forward();
+  }
+  
+  switch(distance2){
+    case 0 ... 70:
+    backward();
+    break;
+   
+    default:
+    forward();
+  }
+  
+  switch(distance3){
+    case 0 ... 70:
+    turnLeft();
+    break;
+   
+    default:
+    forward();
+  }
+}
